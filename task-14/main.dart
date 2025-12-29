@@ -1,29 +1,40 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+class Task13Screen extends StatefulWidget {
+  const Task13Screen({super.key});
 
-class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(home: GalleryScreen());
-  }
+  State<Task13Screen> createState() => _Task13ScreenState();
 }
 
-class GalleryScreen extends StatelessWidget {
+class _Task13ScreenState extends State<Task13Screen> {
+  final List<String> images = [
+    "https://picsum.photos/id/1015/400/300",
+    "https://picsum.photos/id/1025/400/300",
+    "https://picsum.photos/id/1035/400/300",
+  ];
+
+  int index = 0;
+
+  void changeImage() {
+    setState(() {
+      index = (index + 1) % images.length;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Task 14')),
-      body: GridView.count(
-        crossAxisCount: 2,
+      appBar: AppBar(title: const Text("Task 13")),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          for (int i = 1; i <= 6; i++)
-            Image.network(
-              'https://picsum.photos/200/200?image=$i',
-              loadingBuilder: (context, child, progress) {
-                return progress == null ? child : CircularProgressIndicator();
-              },
-            ),
+          Image.network(images[index], height: 250),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: changeImage,
+            child: const Text("Change Image"),
+          ),
         ],
       ),
     );
